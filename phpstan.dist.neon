@@ -1,0 +1,9 @@
+parameters:
+    level: 10
+    paths:
+        - src/
+        - tests/
+    stubFiles:
+        - stubs/HxTarget.stub
+        - stubs/HxSwap.stub
+        - stubs/BaseNode.stub

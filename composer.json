@@ -1,0 +1,32 @@
+{
+    "name": "berry/htmx",
+    "description": "HTMX extension for berry/html",
+    "type": "library",
+    "require": {
+        "berry/html": "^0.3.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^4.2",
+        "phpstan/phpstan": "^2.1"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Berry\\Htmx\\": "src/"
+        },
+        "files": [
+            "src/bootstrap.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Christopher Kaster",
+            "email": "me@atomicptr.de"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
