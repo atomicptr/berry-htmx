@@ -3,7 +3,7 @@
     "description": "HTMX extension for berry/html",
     "type": "library",
     "require": {
-        "berry/html": "^0.3.0"
+        "berry/html": "0.*"
     },
     "require-dev": {
         "pestphp/pest": "^4.2",
