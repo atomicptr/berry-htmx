@@ -1,5 +1,5 @@
 parameters:
     stubFiles:
-        - stubs/HxTarget.stub
-        - stubs/HxSwap.stub
-        - stubs/BaseNode.stub
+        - stubs/HxTarget.php
+        - stubs/HxSwap.php
+        - stubs/BaseNode.php
