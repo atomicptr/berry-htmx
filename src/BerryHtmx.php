@@ -2,7 +2,8 @@
 
 namespace Berry\Htmx;
 
-use Berry\Html5\BaseNode;
+use Berry\Html5\HtmlTag;
+use Berry\Html5\HtmlVoidTag;
 use ArgumentCountError;
 use Closure;
 use InvalidArgumentException;
@@ -12,40 +13,47 @@ final readonly class BerryHtmx
 {
     public static function install(): void
     {
-        BaseNode::addMethod('hxGet', static::hxGet());
-        BaseNode::addMethod('hxPost', static::hxPost());
-        BaseNode::addMethod('hxPut', static::hxPut());
-        BaseNode::addMethod('hxPatch', static::hxPatch());
-        BaseNode::addMethod('hxDelete', static::hxDelete());
-        BaseNode::addMethod('hxOn', static::hxOn());
-        BaseNode::addMethod('hxBoost', static::hxBoost());
-        BaseNode::addMethod('hxConfirm', static::hxConfirm());
-        BaseNode::addMethod('hxDisable', static::hxDisable());
-        BaseNode::addMethod('hxEncoding', static::hxEncoding());
-        BaseNode::addMethod('hxExt', static::hxExt());
-        BaseNode::addMethod('hxHistory', static::hxHistory());
-        BaseNode::addMethod('hxInclude', static::hxInclude());
-        BaseNode::addMethod('hxIndicator', static::hxIndicator());
-        BaseNode::addMethod('hxParams', static::hxParams());
-        BaseNode::addMethod('hxPreserve', static::hxPreserve());
-        BaseNode::addMethod('hxPrompt', static::hxPrompt());
-        BaseNode::addMethod('hxPushUrl', static::hxPushUrl());
-        BaseNode::addMethod('hxReplaceUrl', static::hxReplaceUrl());
-        BaseNode::addMethod('hxRequest', static::hxRequest());
-        BaseNode::addMethod('hxSelect', static::hxSelect());
-        BaseNode::addMethod('hxSelectOob', static::hxSelectOob());
-        BaseNode::addMethod('hxSwapOob', static::hxSwapOob());
-        BaseNode::addMethod('hxSync', static::hxSync());
-        BaseNode::addMethod('hxTarget', static::hxTarget());
-        BaseNode::addMethod('hxTrigger', static::hxTrigger());
-        BaseNode::addMethod('hxValidate', static::hxValidate());
-        BaseNode::addMethod('hxVals', static::hxVals());
-        BaseNode::addMethod('hxHeaders', static::hxHeaders());
-        BaseNode::addMethod('hxSwap', static::hxSwap());
-        BaseNode::addMethod('hxDisinherit', static::hxDisinherit());
-        BaseNode::addMethod('hxInherit', static::hxInherit());
-        BaseNode::addMethod('hxHistoryElt', static::hxHistoryElt());
-        BaseNode::addMethod('hxDisabledElt', static::hxDisabledElt());
+        $methods = [
+            'hxGet' => static::hxGet(),
+            'hxPost' => static::hxPost(),
+            'hxPut' => static::hxPut(),
+            'hxPatch' => static::hxPatch(),
+            'hxDelete' => static::hxDelete(),
+            'hxOn' => static::hxOn(),
+            'hxBoost' => static::hxBoost(),
+            'hxConfirm' => static::hxConfirm(),
+            'hxDisable' => static::hxDisable(),
+            'hxEncoding' => static::hxEncoding(),
+            'hxExt' => static::hxExt(),
+            'hxHistory' => static::hxHistory(),
+            'hxInclude' => static::hxInclude(),
+            'hxIndicator' => static::hxIndicator(),
+            'hxParams' => static::hxParams(),
+            'hxPreserve' => static::hxPreserve(),
+            'hxPrompt' => static::hxPrompt(),
+            'hxPushUrl' => static::hxPushUrl(),
+            'hxReplaceUrl' => static::hxReplaceUrl(),
+            'hxRequest' => static::hxRequest(),
+            'hxSelect' => static::hxSelect(),
+            'hxSelectOob' => static::hxSelectOob(),
+            'hxSwapOob' => static::hxSwapOob(),
+            'hxSync' => static::hxSync(),
+            'hxTarget' => static::hxTarget(),
+            'hxTrigger' => static::hxTrigger(),
+            'hxValidate' => static::hxValidate(),
+            'hxVals' => static::hxVals(),
+            'hxHeaders' => static::hxHeaders(),
+            'hxSwap' => static::hxSwap(),
+            'hxDisinherit' => static::hxDisinherit(),
+            'hxInherit' => static::hxInherit(),
+            'hxHistoryElt' => static::hxHistoryElt(),
+            'hxDisabledElt' => static::hxDisabledElt(),
+        ];
+
+        foreach ($methods as $name => $func) {
+            HtmlTag::addMethod($name, $func);
+            HtmlVoidTag::addMethod($name, $func);
+        }
     }
 
     /**
@@ -123,7 +131,7 @@ final readonly class BerryHtmx
 
     private static function requestMethod(string $attr): Closure
     {
-        return function (BaseNode $node, mixed ...$args) use ($attr): BaseNode {
+        return function (HtmlTag|HtmlVoidTag $node, mixed ...$args) use ($attr): HtmlTag|HtmlVoidTag {
             static::assertArgsCount($attr, $args, 1);
             $url = static::assertString($attr, $args, 0);
             return $node->attr($attr, $url);
@@ -132,7 +140,7 @@ final readonly class BerryHtmx
 
     private static function hxOn(): Closure
     {
-        return function (BaseNode $node, mixed ...$args): BaseNode {
+        return function (HtmlTag|HtmlVoidTag $node, mixed ...$args): HtmlTag|HtmlVoidTag {
             static::assertArgsCount('hx-on', $args, 2);
             $event = static::assertString('hx-on', $args, 0);
             $js = static::assertString('hx-on', $args, 1);
@@ -142,7 +150,7 @@ final readonly class BerryHtmx
 
     private static function simpleBool(string $attr): Closure
     {
-        return function (BaseNode $node, mixed ...$args) use ($attr): BaseNode {
+        return function (HtmlTag|HtmlVoidTag $node, mixed ...$args) use ($attr): HtmlTag|HtmlVoidTag {
             static::assertArgsCount($attr, $args, 1);
             $val = static::assertBool($attr, $args, 0);
             return $node->attr($attr, $val ? 'true' : 'false');
@@ -151,7 +159,7 @@ final readonly class BerryHtmx
 
     private static function simpleString(string $attr): Closure
     {
-        return function (BaseNode $node, mixed ...$args) use ($attr): BaseNode {
+        return function (HtmlTag|HtmlVoidTag $node, mixed ...$args) use ($attr): HtmlTag|HtmlVoidTag {
             static::assertArgsCount($attr, $args, 1);
             $val = static::assertString($attr, $args, 0);
             return $node->attr($attr, $val);
@@ -280,7 +288,7 @@ final readonly class BerryHtmx
 
     private static function simpleFlag(string $attr): Closure
     {
-        return function (BaseNode $node) use ($attr): BaseNode {
+        return function (HtmlTag|HtmlVoidTag $node) use ($attr): HtmlTag|HtmlVoidTag {
             return $node->flag($attr);
         };
     }
@@ -297,7 +305,7 @@ final readonly class BerryHtmx
 
     private static function hxTarget(): Closure
     {
-        return function (BaseNode $node, mixed ...$args): BaseNode {
+        return function (HtmlTag|HtmlVoidTag $node, mixed ...$args): HtmlTag|HtmlVoidTag {
             static::assertArgsCount('hx-target', $args, 1);
             $val = $args[0];
 
@@ -312,7 +320,7 @@ final readonly class BerryHtmx
 
     private static function hxSwap(): Closure
     {
-        return function (BaseNode $node, mixed ...$args): BaseNode {
+        return function (HtmlTag|HtmlVoidTag $node, mixed ...$args): HtmlTag|HtmlVoidTag {
             static::assertArgsCount('hx-swap', $args, 1);
             $val = $args[0];
 

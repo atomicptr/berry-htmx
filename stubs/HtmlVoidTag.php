@@ -41,4 +41,4 @@ use Berry\Htmx\HxTarget;
  * @method static hxDisabledElt(string $selector) Adds the disabled attribute to the specified elements while a request is in flight
  * @method static hxOn(string $event, string $js) Handles any event with inline script (uses hx-on:* syntax)
  */
-class BaseNode {}
+class HtmlVoidTag {}

@@ -2,4 +2,5 @@ parameters:
     stubFiles:
         - stubs/HxTarget.php
         - stubs/HxSwap.php
-        - stubs/BaseNode.php
+        - stubs/HtmlTag.php
+        - stubs/HtmlVoidTag.php

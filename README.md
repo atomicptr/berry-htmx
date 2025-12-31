@@ -7,13 +7,13 @@ HTMX extension for [berry/html](https://github.com/atomicptr/berry)
 Install via composer
 
 ```sh
-$ composer req bevy/htmx
+$ composer req berry/htmx
 ```
 
 ```php
 <?php
 
-function renderCounterButton(int $value): Renderable
+function renderCounterButton(int $value): Element
 {
     return button()
         ->hxPost("/counter/{$value + 1}")
